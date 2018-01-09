@@ -4,7 +4,7 @@ var app = express();
 // var router = express.Router();
 var axios = require("axios");
 var cheerio = require("cheerio");
-// var db = require("./models");
+var db = require("../models");
 
 app.get("/scrape", function(req, res) {
     axios.get("https://www.reddit.com/r/learnprogramming/").then(function(response) {
