@@ -2,12 +2,17 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var exphbs = require("express-handlebars");
 
 // scraping tools
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-var PORT = 8080;
+// port config
+var PORT = process.env.PORT || 8080;
+
+// link mongodb
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/SocialNews";
 
 // Require all models
 var db = require("./models");
@@ -25,41 +30,11 @@ app.use(express.static("public"));
 // mongoose es6 setup
 mongoose.Promise = Promise;
 
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+app.use(express.static("public"));
 
-// TODOO:--------------------------------------------------------------
-mongoose.connect("add hyper link here", {
-    useMongoClient: true
-});
-// TODOO:--------------------------------------------------------------
-
-
-// db creation stuff
-
-// routes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+require("./routes/api-routes.js")(app);
 
 // Start the server
 app.listen(PORT, function() {
