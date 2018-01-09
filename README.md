@@ -1,7 +1,7 @@
 # SocialNews
 a web app that lets users view and leave comments on the latest news. 
 <p align="center">
-  <img src="/public/assets/images/readme1.jpg" width="350"/>
+  <img src="public/images/readme1.PNG" width="100%"/>
 </p>
 
 # MongoScraper
