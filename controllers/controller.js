@@ -6,6 +6,11 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 var db = require("../models");
 
+
+app.get("/", function(req, res) {
+    res.render("index");
+});
+
 app.get("/scrape", function(req, res) {
     axios.get("https://www.reddit.com/r/learnprogramming/").then(function(response) {
         var $ = cheerio.load(response.data);
@@ -15,7 +20,6 @@ app.get("/scrape", function(req, res) {
             var result = {};
             // Add the text and href of every link, and save them as properties of the result object
             result.title = $(this)
-                .children("a")
                 .text();
             result.link = $(this)
                 .children("a")
@@ -28,9 +32,10 @@ app.get("/scrape", function(req, res) {
                     res.send("Scrape Complete");
                 })
                 .catch(function(err) {
-                    res.json(err);
+                    return res.json(err);
                 });
         });
+        res.redirect("/articles");
     });
 });
 
@@ -40,6 +45,17 @@ app.get("/articles", function(req, res) {
         .find({})
         .then(function(dbArticle) {
             res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+
+app.post("/saved/", function(req, res) {
+    db.Article
+        .find({ saved: true })
+        .then(function(dbArticle) {
+            res.render("saved");
         })
         .catch(function(err) {
             res.json(err);
